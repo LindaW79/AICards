@@ -3,110 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI-Game 🎴</title>
+  <title>AI-Kortleken 🍌</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle, #e0e0e0, #bdbdbd);
       margin: 0;
       padding: 20px;
     }
-    h1 {
-      color: #333;
+    h1, p {
+      text-align: center;
+      color: #222;
     }
-    #deck {
-      margin-top: 20px;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      display: inline-block;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    .decks-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .deck-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .deck {
+      margin-bottom: 10px;
+      padding: 15px;
+      width: 160px;
+      height: 100px;
+      line-height: 1.4;
+      background-color: #2e7d32;
+      color: white;
+      font-size: 18px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
       cursor: pointer;
       transition: transform 0.2s;
+      text-align: center;
     }
-    #deck:hover {
+    .deck:hover {
       transform: scale(1.05);
     }
     .card {
-      background-color: #ffcc00;
+      background-color: white;
       padding: 15px;
-      margin: 10px;
-      border-radius: 8px;
-      display: inline-block;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      margin: 10px 0;
+      border-radius: 12px;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       font-size: 16px;
-      max-width: 400px;
+      text-align: left;
+      position: relative;
     }
-    #table {
-      margin-top: 30px;
+    .category {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #0288d1;
+      color: white;
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+    .cards-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     button {
-      margin-top: 20px;
-      padding: 10px 15px;
-      background-color: #007bff;
+      display: block;
+      margin: 30px auto 0;
+      padding: 10px 20px;
+      background-color: #0288d1;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
+      font-size: 16px;
       cursor: pointer;
-      transition: background 0.3s;
     }
     button:hover {
-      background-color: #0056b3;
+      background-color: #01579b;
     }
   </style>
 </head>
 <body>
-  <h1>AI-Game 🎴</h1>
-  <p>Klicka på kortleken för att dra ett AI-uppdrag!</p>
+  <h1>🌟 AI-Kortleken 🌟</h1>
+  <p>Välj en kategori för att dra ett AI-uppdrag!</p>
 
-  <div id="deck">🃏 Klicka för att dra ett kort</div>
-
-  <div id="table">
-    <h2>Dina dragna kort:</h2>
-    <div id="drawn-cards"></div>
+  <div class="decks-container">
+    <div class="deck-column">
+      <div class="deck" onclick="drawCard('Text')">📖 Text</div>
+      <div id="cards-Text" class="cards-container"></div>
+    </div>
+    <div class="deck-column">
+      <div class="deck" onclick="drawCard('Bild')">🎨 Bild</div>
+      <div id="cards-Bild" class="cards-container"></div>
+    </div>
+    <div class="deck-column">
+      <div class="deck" onclick="drawCard('Programmering')">💻 Programmering</div>
+      <div id="cards-Programmering" class="cards-container"></div>
+    </div>
+    <div class="deck-column">
+      <div class="deck" onclick="drawCard('Ljud')">🎵 Ljud</div>
+      <div id="cards-Ljud" class="cards-container"></div>
+    </div>
   </div>
 
-  <button onclick="resetGame()">Återställ kortleken</button>
+  <button onclick="resetGame()">Starta om</button>
 
   <script>
     const tasks = [
-      "Använd ChatGPT för att skapa en berättelse där AI räddar mänskligheten – skriv minst tre meningar.",
-      "Skapa ett konstverk i DALL·E eller Midjourney föreställande en stad designad av AI.",
-      "Låt ChatGPT skapa en gåta och försök lösa den – du får bara tre gissningar!",
-      "Gör en snabb skiss på papper av hur du tror en AI-assistent kommer se ut om 20 år.",
-      "Använd ett AI-verktyg för att förbättra eller förvandla ett foto du själv tagit.",
-      "Skapa ett namn, logo och slogan till en fiktiv AI-startup – be ChatGPT om hjälp.",
-      "Låt ChatGPT generera kod för ett enkelt spel (t.ex. sten-sax-påse) – testa att köra det.",
-      "Be ChatGPT skriva en dikt som beskriver känslor en AI skulle kunna ha (även om den inte kan det).",
-      "Skapa ett AI-genererat soundtrack till en film som inte finns (använd t.ex. Soundraw eller Suno).",
-      "Låt ChatGPT planera en fantasivärld där AI styr men är snäll – ge den ett namn!"
+      { text: "Skapa en AI-genererad bild av ett magiskt bibliotek.", category: "Bild" },
+      { text: "Använd ChatGPT för att skriva en dikt om framtidens teknik.", category: "Text" },
+      { text: "Låt ChatGPT hjälpa dig att skriva ett brev till en framtida AI.", category: "Text" },
+      { text: "Generera en logotyp med AI för en uppdiktad AI-startup.", category: "Bild" },
+      { text: "Använd AI för att skapa en berättelse om en AI som blir kär.", category: "Text" },
+      { text: "Skapa en hemsida med hjälp av AI som förklarar ett programmeringskoncept.", category: "Programmering" },
+      { text: "Skapa musik med AI för ett spel du gillar.", category: "Ljud" },
+      { text: "Be ChatGPT förklara ett matematiskt problem du tycker är svårt.", category: "Text" },
+      { text: "Gör ett spelkoncept med AI och bygg en prototyp.", category: "Programmering" },
+      { text: "Jämför hur olika AI-verktyg genererar bilder från samma text.", category: "Bild" }
     ];
 
     let drawnTasks = new Set();
 
-    document.getElementById("deck").addEventListener("click", function() {
-      if (drawnTasks.size === tasks.length) {
-        alert("Alla kort är dragna! Återställ för en ny omgång.");
+    function drawCard(category) {
+      const filtered = tasks.filter(task => task.category === category && !drawnTasks.has(task.text));
+      if (filtered.length === 0) {
+        alert(`Alla kort i kategorin "${category}" är dragna!`);
         return;
       }
 
-      let newTask;
-      do {
-        newTask = tasks[Math.floor(Math.random() * tasks.length)];
-      } while (drawnTasks.has(newTask));
-
-      drawnTasks.add(newTask);
+      const newTask = filtered[Math.floor(Math.random() * filtered.length)];
+      drawnTasks.add(newTask.text);
 
       const card = document.createElement("div");
       card.className = "card";
-      card.textContent = newTask;
-      document.getElementById("drawn-cards").appendChild(card);
-    });
+      card.textContent = newTask.text;
+
+      const badge = document.createElement("div");
+      badge.className = "category";
+      badge.textContent = newTask.category;
+      card.appendChild(badge);
+
+      document.getElementById(`cards-${category}`).appendChild(card);
+    }
 
     function resetGame() {
       drawnTasks.clear();
-      document.getElementById("drawn-cards").innerHTML = "";
+      document.querySelectorAll('.cards-container').forEach(container => container.innerHTML = "");
     }
   </script>
 </body>
