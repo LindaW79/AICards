@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI-Kortleken</title>
+  <title>AI-Kortleken 🌟</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #e0e0e0, #bdbdbd);
+      background-color: #e6dbc5;
       margin: 0;
       padding: 20px;
     }
@@ -32,19 +32,14 @@
     }
 
     .deck {
-      margin-bottom: 10px;
-      padding: 15px;
       width: 160px;
-      height: 100px;
-      line-height: 1.4;
-      background-color: #2e7d32;
-      color: white;
-      font-size: 18px;
+      height: 240px;
+      background-size: cover;
+      background-position: center;
       border-radius: 12px;
       box-shadow: 0 6px 12px rgba(0,0,0,0.3);
       cursor: pointer;
       transition: transform 0.2s;
-      text-align: center;
     }
 
     .deck:hover {
@@ -62,6 +57,12 @@
       text-align: left;
       position: relative;
     }
+
+    .card[data-category="Text"]    { background-color: #f0e6d2; }
+    .card[data-category="Bild"]    { background-color: #e0f0ff; }
+    .card[data-category="Programmering"] { background-color: #dfe6e9; }
+    .card[data-category="Ljud"]    { background-color: #fdecea; }
+    .card[data-category="Arbete"]  { background-color: #fff3cd; }
 
     .category {
       position: absolute;
@@ -99,8 +100,7 @@
     @media (max-width: 600px) {
       .deck {
         width: 130px;
-        height: 90px;
-        font-size: 16px;
+        height: 200px;
       }
 
       .card {
@@ -111,27 +111,27 @@
 </head>
 <body>
   <h1>🌟 AI-Kortleken 🌟</h1>
-  <p>Välj en kategori för att dra ett AI-uppdrag!</p>
+  <p>Klicka på ett kort för att dra ett AI-uppdrag!</p>
 
   <div class="decks-container">
     <div class="deck-column">
-      <div class="deck" onclick="drawCard('Text')">📖 Text</div>
+      <div class="deck" style="background-image: url('kort-text.png');" onclick="drawCard('Text')"></div>
       <div id="cards-Text" class="cards-container"></div>
     </div>
     <div class="deck-column">
-      <div class="deck" onclick="drawCard('Bild')">🎨 Bild</div>
+      <div class="deck" style="background-image: url('kort-bild.png');" onclick="drawCard('Bild')"></div>
       <div id="cards-Bild" class="cards-container"></div>
     </div>
     <div class="deck-column">
-      <div class="deck" onclick="drawCard('Programmering')">💻 Programmering</div>
+      <div class="deck" style="background-image: url('kort-programmering.png');" onclick="drawCard('Programmering')"></div>
       <div id="cards-Programmering" class="cards-container"></div>
     </div>
     <div class="deck-column">
-      <div class="deck" onclick="drawCard('Ljud')">🎵 Ljud</div>
+      <div class="deck" style="background-image: url('kort-ljud.png');" onclick="drawCard('Ljud')"></div>
       <div id="cards-Ljud" class="cards-container"></div>
     </div>
     <div class="deck-column">
-      <div class="deck" onclick="drawCard('Arbete')">🛠 Arbete</div>
+      <div class="deck" style="background-image: url('kort-arbete.png');" onclick="drawCard('Arbete')"></div>
       <div id="cards-Arbete" class="cards-container"></div>
     </div>
   </div>
@@ -184,6 +184,7 @@
 
       const card = document.createElement("div");
       card.className = "card";
+      card.setAttribute("data-category", category);
       card.textContent = newTask.text;
 
       const badge = document.createElement("div");
@@ -201,4 +202,3 @@
   </script>
 </body>
 </html>
-
