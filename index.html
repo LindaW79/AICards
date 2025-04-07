@@ -71,7 +71,7 @@
     .cards-container {
       position: relative;
       width: 160px;
-      height: 240px;
+      height: 320px; /* lite högre för plats till stacken */
       margin-top: 10px;
     }
 
@@ -86,7 +86,6 @@
       overflow: hidden;
       box-sizing: border-box;
       cursor: pointer;
-      top: 10px;
       opacity: 0;
       animation: fadeIn 0.4s forwards;
       transition: transform 0.2s ease, top 0.2s ease;
@@ -105,13 +104,14 @@
 
     .category {
       position: absolute;
-      top: -10px;
-      right: -10px;
+      top: 8px;
+      right: 8px;
       background: #0288d1;
       color: white;
       padding: 4px 10px;
       font-size: 12px;
       border-radius: 8px;
+      z-index: 10;
     }
 
     button {
@@ -139,6 +139,9 @@
       .deck, .cards-container, .card {
         width: 130px;
         height: 200px;
+      }
+      .cards-container {
+        height: 280px;
       }
     }
   </style>
@@ -210,7 +213,7 @@
     ];
 
     let drawnTasks = new Set();
-    let cardStacks = {};
+    let cardStacks = {}; // z-index och offset
 
     function drawCard(category) {
       const filtered = tasks.filter(task => task.category === category && !drawnTasks.has(task.text));
@@ -233,15 +236,19 @@
       card.appendChild(badge);
 
       const container = document.getElementById(`cards-${category}`);
-      if (!cardStacks[category]) cardStacks[category] = 1;
-      card.style.zIndex = cardStacks[category]++;
+      if (!cardStacks[category]) cardStacks[category] = { z: 1, offset: 0 };
+
+      card.style.zIndex = cardStacks[category].z++;
+      card.style.top = `${cardStacks[category].offset}px`;
+      cardStacks[category].offset += 12;
+
       container.appendChild(card);
 
-      // Klicka för att lyfta ett kort överst med liten "studs"
+      // Klick för att lyfta fram
       card.addEventListener('click', () => {
         card.classList.add("clicked");
         setTimeout(() => card.classList.remove("clicked"), 200);
-        card.style.zIndex = cardStacks[category]++;
+        card.style.zIndex = cardStacks[category].z++;
       });
     }
 
@@ -253,5 +260,6 @@
   </script>
 </body>
 </html>
+
 
 
