@@ -68,16 +68,33 @@
       box-sizing: border-box;
     }
 
-    .card {
-      background-color: white;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 12px;
-      width: 280px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      font-size: 16px;
-      text-align: left;
+    .cards-container {
       position: relative;
+      width: 160px;
+      height: 240px;
+      margin-top: 10px;
+    }
+
+    .card {
+      position: absolute;
+      width: 160px;
+      height: 240px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      padding: 15px;
+      overflow: hidden;
+      box-sizing: border-box;
+      cursor: pointer;
+      top: 10px;
+      opacity: 0;
+      animation: fadeIn 0.4s forwards;
+      transition: transform 0.2s ease, top 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .card.clicked {
+      transform: scale(1.08);
     }
 
     .card[data-category="Text"]    { background-color: #f0e6d2; }
@@ -97,12 +114,6 @@
       border-radius: 8px;
     }
 
-    .cards-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
     button {
       display: block;
       margin: 30px auto 0;
@@ -119,14 +130,15 @@
       background-color: #01579b;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
     @media (max-width: 600px) {
-      .deck {
+      .deck, .cards-container, .card {
         width: 130px;
         height: 200px;
-      }
-
-      .card {
-        width: 90%;
       }
     }
   </style>
@@ -198,6 +210,7 @@
     ];
 
     let drawnTasks = new Set();
+    let cardStacks = {};
 
     function drawCard(category) {
       const filtered = tasks.filter(task => task.category === category && !drawnTasks.has(task.text));
@@ -219,14 +232,26 @@
       badge.textContent = newTask.category;
       card.appendChild(badge);
 
-      document.getElementById(`cards-${category}`).appendChild(card);
+      const container = document.getElementById(`cards-${category}`);
+      if (!cardStacks[category]) cardStacks[category] = 1;
+      card.style.zIndex = cardStacks[category]++;
+      container.appendChild(card);
+
+      // Klicka för att lyfta ett kort överst med liten "studs"
+      card.addEventListener('click', () => {
+        card.classList.add("clicked");
+        setTimeout(() => card.classList.remove("clicked"), 200);
+        card.style.zIndex = cardStacks[category]++;
+      });
     }
 
     function resetGame() {
       drawnTasks.clear();
+      cardStacks = {};
       document.querySelectorAll('.cards-container').forEach(container => container.innerHTML = "");
     }
   </script>
 </body>
 </html>
+
 
