@@ -40,10 +40,32 @@
       box-shadow: 0 6px 12px rgba(0,0,0,0.3);
       cursor: pointer;
       transition: transform 0.2s;
+      position: relative;
+      overflow: hidden;
     }
 
     .deck:hover {
       transform: scale(1.05);
+    }
+
+    .deck-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      text-align: center;
+      padding: 4px;
+      box-sizing: border-box;
     }
 
     .card {
@@ -115,23 +137,33 @@
 
   <div class="decks-container">
     <div class="deck-column">
-      <div class="deck" style="background-image: url('kort-text.png');" onclick="drawCard('Text')"></div>
+      <div class="deck" style="background-image: url('kort-text.png');" onclick="drawCard('Text')">
+        <div class="deck-label">Textuppdrag</div>
+      </div>
       <div id="cards-Text" class="cards-container"></div>
     </div>
     <div class="deck-column">
-      <div class="deck" style="background-image: url('kort-bild.png');" onclick="drawCard('Bild')"></div>
+      <div class="deck" style="background-image: url('kort-bild.png');" onclick="drawCard('Bild')">
+        <div class="deck-label">Bildidéer</div>
+      </div>
       <div id="cards-Bild" class="cards-container"></div>
     </div>
     <div class="deck-column">
-      <div class="deck" style="background-image: url('kort-programmering.png');" onclick="drawCard('Programmering')"></div>
+      <div class="deck" style="background-image: url('kort-programmering.png');" onclick="drawCard('Programmering')">
+        <div class="deck-label">Kodprojekt</div>
+      </div>
       <div id="cards-Programmering" class="cards-container"></div>
     </div>
     <div class="deck-column">
-      <div class="deck" style="background-image: url('kort-ljud.png');" onclick="drawCard('Ljud')"></div>
+      <div class="deck" style="background-image: url('kort-ljud.png');" onclick="drawCard('Ljud')">
+        <div class="deck-label">Ljudutmaningar</div>
+      </div>
       <div id="cards-Ljud" class="cards-container"></div>
     </div>
     <div class="deck-column">
-      <div class="deck" style="background-image: url('kort-arbete.png');" onclick="drawCard('Arbete')"></div>
+      <div class="deck" style="background-image: url('kort-arbete.png');" onclick="drawCard('Arbete')">
+        <div class="deck-label">Jobbrelaterat</div>
+      </div>
       <div id="cards-Arbete" class="cards-container"></div>
     </div>
   </div>
@@ -140,29 +172,24 @@
 
   <script>
     const tasks = [
-      // Text
       { text: "Skriv en dikt om framtidens teknik.", category: "Text" },
       { text: "Skriv ett brev till en framtida AI.", category: "Text" },
       { text: "Skapa en saga där du och en AI åker på äventyr.", category: "Text" },
       { text: "Förvandla ett tråkigt mejl till något inspirerande.", category: "Text" },
 
-      // Bild
       { text: "Skapa en AI-bild av ett magiskt bibliotek.", category: "Bild" },
       { text: "Designa en logotyp för en påhittad AI-startup.", category: "Bild" },
       { text: "Rita ett nytt djur med AI – blanda två valfria arter.", category: "Bild" },
       { text: "Be AI skapa en bild av dig som superhjälte.", category: "Bild" },
 
-      // Programmering
       { text: "Skapa en hemsida som förklarar ett kodkoncept.", category: "Programmering" },
       { text: "Be AI skapa ett enkelt HTML-spel (typ gissa talet).", category: "Programmering" },
       { text: "Bygg en knapp som ändrar färg varje gång du klickar.", category: "Programmering" },
 
-      // Ljud
       { text: "Skapa en låt om AI med valfri genre.", category: "Ljud" },
       { text: "Be AI generera en ljudlogo för ett fiktivt företag.", category: "Ljud" },
       { text: "Skriv en låttext om en robot som längtar efter frihet.", category: "Ljud" },
 
-      // Arbete
       { text: "Sammanfatta ett långt protokoll i punktform.", category: "Arbete" },
       { text: "Be AI skriva ett professionellt men vänligt nej-tack-mejl.", category: "Arbete" },
       { text: "Låt AI skapa ett förslag på PowerPoint-struktur för ett projektmöte.", category: "Arbete" },
@@ -202,3 +229,4 @@
   </script>
 </body>
 </html>
+
